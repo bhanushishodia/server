@@ -44,7 +44,7 @@ async function sendEmailToClient(clientEmail, clientName, mobile, company) {
           <li>Boost customer support with AI chatbots that work around the clock.</li>
           <li>Turn your data into valuable insights to make smarter business decisions.</li>
           <li>Automate daily tasks to save time and cut costs.</li>
-          <li>Create custom AI solutions that fit your specific goals.</li>
+          <li>Create custom AI solutions tha fit your specific goals.</li>
         </ul>
         <p>We can’t wait to see what you’ll achieve!</p>
         <p>If you have any questions, we’re just an email away at <a href="mailto:info@anantya.ai">info@anantya.ai</a>.</p>
