@@ -10,7 +10,7 @@ const emailService = require('./services/emailService');
 const paymentRoutes = require("./routes/paymentRoutes");
 const whatsappRoutes = require("./routes/whatsappRoutes"); // Import WhatsApp routes
 const documentRoutes = require('./routes/documentRoutes');
-const { sendTemplateMessage } = require('./services/sendMessage');
+// const { sendTemplateMessage } = require('./services/sendMessage');
 
 
 const { sendPaymentConfirmationEmail } = require('./services/emailService');
