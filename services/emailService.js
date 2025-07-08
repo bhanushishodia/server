@@ -14,7 +14,7 @@ async function sendEmailToAdmin(clientName, clientEmail, mobile, company) {
     const mailOptionsAdmin = {
       from: process.env.EMAIL_USER,
       to: 'info@anantya.ai',
-      cc: 'Mokshika@anantya.ai',
+      cc: ['Mokshika@anantya.ai', 'sales@anantya.ai'], // cc me dono emails
       subject: 'New Client Form Submission',
       text: `Client Name: ${clientName}\nClient Email: ${clientEmail}\nMobile: ${mobile}\nCompany: ${company}`, // Includes Client Name
     };
@@ -32,7 +32,7 @@ async function sendEmailToClient(clientEmail, clientName, mobile, company) {
     const mailOptionsClient = {
       from: process.env.EMAIL_USER,
       to: clientEmail,
-      cc: 'Mokshika@anantya.ai',
+      cc: ['Mokshika@anantya.ai', 'sales@anantya.ai'], // cc me dono emails
       subject: 'Welcome to the Anantya.ai!',
       html: `
         <p>Dear ${clientName},</p>
