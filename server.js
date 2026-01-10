@@ -47,7 +47,7 @@ app.use((req, res, next) => {
 
 // Root route to test the server
 app.get("/", (req, res) => {
-  res.send("Welcome to the server!");
+  res.send("Welcome to the main  new-acquisition.anantya.ai!");
 });
 
 // Define the /payment/success route
@@ -81,20 +81,15 @@ app.post('/submit-form', (req, res) => {
   res.status(200).send('Form submitted, emails sent, and agreement sent for signature.');
 });
 
-// Serve static files from React's build folder
-// app.use(express.static(path.join(__dirname, "build"))); 
 
-// // Redirect all other requests to index.html (for React SPA)
-// app.get("*", (req, res) => {
-//   res.sendFile(path.join(__dirname, 'build', 'index.html'));
-// });
 
 // Use process.env for port
 const PORT = process.env.PORT || 5000;
 // Start the server on port 5000
 // app.listen(5000, () => { 
 app.listen(PORT, () => {
-  console.log("Server running on http://localhost:5000");
+  console.log(`Server running on port ${PORT}`);
 });
 
-// last chnage 13 march final
+
+// last chnage 25 august
