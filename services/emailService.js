@@ -122,19 +122,54 @@ async function sendPaymentConfirmationEmail(
 
 /* ================= OTP EMAIL ================= */
 async function sendOtpEmail(clientEmail, clientName, otp) {
-  const mailOptions = {
-    from: process.env.EMAIL_USER,
-    to: clientEmail,
-    subject: "Anantya.ai Email Verification Code",
-    html: `
-      <p>Hello ${clientName},</p>
-      <h2>Your OTP: ${otp}</h2>
-      <p>This OTP is valid for 5 minutes.</p>
-    `,
-  };
+  console.log("📨 OTP REQUEST RECEIVED:", {
+    clientEmail,
+    clientName,
+    otpPresent: !!otp,
+    time: new Date().toISOString(),
+  });
 
-  await transporter.sendMail(mailOptions);
+  try {
+    const mailOptions = {
+      from: `"Anantya.ai" <${process.env.EMAIL_USER}>`,
+      to: clientEmail,
+      subject: "Anantya.ai Email Verification Code",
+      html: `
+        <p>Hello ${clientName},</p>
+        <h2>Your OTP: ${otp}</h2>
+        <p>This OTP is valid for 5 minutes.</p>
+      `,
+    };
+
+    console.log("📤 Attempting SMTP verify...");
+    await transporter.verify();
+    console.log("✅ SMTP verified before sending OTP");
+
+    console.log("📤 Sending OTP email...");
+    const info = await transporter.sendMail(mailOptions);
+
+    console.log("✅ OTP EMAIL SENT", {
+      messageId: info.messageId,
+      response: info.response,
+      accepted: info.accepted,
+      rejected: info.rejected,
+    });
+
+    return true;
+  } catch (error) {
+    console.error("❌ OTP EMAIL FAILED", {
+      message: error.message,
+      code: error.code,
+      command: error.command,
+      response: error.response,
+      stack: process.env.NODE_ENV === "development" ? error.stack : undefined,
+    });
+
+    throw error;
+  }
 }
+
+
 
 /* ================= INVOICE + RECEIPT EMAIL ================= */
 async function sendPaymentDocsEmail(
