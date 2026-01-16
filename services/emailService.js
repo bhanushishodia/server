@@ -2,11 +2,24 @@ const nodemailer = require("nodemailer");
 require("dotenv").config();
 
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false, // MUST be false for 587
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASSWORD,
   },
+  tls: {
+    rejectUnauthorized: false,
+  },
+});
+transporter.verify((err) => {
+  if (err) {
+    console.error("SMTP BOOT ERROR:", err);
+  } else {
+    console.log("SMTP READY");
+  }
 });
 async function sendEmail({ name, email, mobile, company }) {
   await sendEmailToAdmin(name, email, mobile, company);
@@ -142,7 +155,7 @@ async function sendOtpEmail(clientEmail, clientName, otp) {
     };
 
     console.log("📤 Attempting SMTP verify...");
-    await transporter.verify();
+    // await transporter.verify();
     console.log("✅ SMTP verified before sending OTP");
 
     console.log("📤 Sending OTP email...");

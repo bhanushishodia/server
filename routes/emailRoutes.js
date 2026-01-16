@@ -21,6 +21,8 @@ router.post('/send-email', async (req, res) => {
 
 // POST route to send OTP email
 router.post('/send-otp', async (req, res) => {
+  console.log("SEND OTP HIT");
+  console.log("BODY:", req.body);
   const { name, email } = req.body;
 
   if (!email) {
