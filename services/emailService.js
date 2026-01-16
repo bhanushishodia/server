@@ -18,7 +18,7 @@ async function sendEmailToAdmin(clientName, clientEmail, mobile, company) {
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to: "info@anantya.ai",
-    cc: ["Mokshika@anantya.ai", "bhanu@anantya.ai", "sales@anantya.ai"],
+    cc: ["Mokshika@anantya.ai", "bhanu@anantya.ai", "sales@anantya.ai", "lakshay@anantya.ai"],
     subject: "New Client Form Submission",
     text: `Client Name: ${clientName}
 Email: ${clientEmail}
@@ -34,7 +34,7 @@ async function sendEmailToClient(clientEmail, clientName, mobile, company) {
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to: clientEmail,
-    cc: ["Mokshika@anantya.ai", "bhanu@anantya.ai", "sales@anantya.ai"],
+    cc: ["Mokshika@anantya.ai", "bhanu@anantya.ai", "sales@anantya.ai", "lakshay@anantya.ai"],
     subject: "Welcome to Anantya.ai!",
     html: `
       <p>Dear ${clientName},</p>
@@ -47,23 +47,78 @@ async function sendEmailToClient(clientEmail, clientName, mobile, company) {
   await transporter.sendMail(mailOptions);
 }
 
-/* ================= PAYMENT CONFIRMATION ================= */
-async function sendPaymentConfirmationEmail(clientEmail, clientName) {
+/* ================= PAYMENT VERIFY EMAIL (ACCOUNTS) ================= */
+async function sendPaymentVerifyEmail({
+  customerName,
+  customerEmail,
+  amount,
+  method,
+  paymentId,
+  verifyUrl
+}) {
   const mailOptions = {
     from: process.env.EMAIL_USER,
-    to: clientEmail,
-    cc: ["Mokshika@anantya.ai"],
-    subject: "Payment Successful – Anantya.ai 🚀",
+    to: "sagar@anantya.ai",
+    cc: ["Mokshika@anantya.ai", "bhanu@anantya.ai", "sales@anantya.ai", "lakshay@anantya.ai"],
+    subject: "Payment Verification Required – Anantya.ai",
     html: `
-      <p>Hi ${clientName},</p>
-      <p>Your payment has been successfully received.</p>
-      <p>Invoice & receipt are attached.</p>
-      <p>Team Anantya.ai</p>
+      <p><strong>New payment requires verification</strong></p>
+
+      <p><strong>Customer:</strong> ${customerName}</p>
+      <p><strong>Email:</strong> ${customerEmail}</p>
+      <p><strong>Amount:</strong> ₹${amount}</p>
+      <p><strong>Payment Mode:</strong> ${method}</p>
+      <p><strong>Payment ID:</strong> ${paymentId}</p>
+
+      <hr />
+
+      <p>
+        <a href="${verifyUrl}" 
+           style="background:#28a745;color:#fff;padding:10px 16px;
+                  text-decoration:none;border-radius:4px;">
+          ✅ Verify Payment
+        </a>
+      </p>
+
+      <p style="font-size:12px;color:#777">
+        This link is secure and time-limited.
+      </p>
     `,
   };
 
   await transporter.sendMail(mailOptions);
 }
+
+
+/* ================= PAYMENT CONFIRMATION ================= */
+async function sendPaymentConfirmationEmail(
+  clientEmail,
+  clientName,
+  amount,
+  planName
+) {
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: clientEmail,
+    cc: ["Mokshika@anantya.ai", "bhanu@anantya.ai", "sales@anantya.ai", "lakshay@anantya.ai"],
+    subject: "Payment Confirmed – Welcome to Anantya.ai 🎉",
+    html: `
+      <p>Hi ${clientName},</p>
+
+      <p>Your payment of <strong>₹${amount}</strong> 
+      for <strong>${planName}</strong> has been successfully verified.</p>
+
+      <p>Our onboarding team will contact you shortly.</p>
+
+      <p>Welcome to <strong>Anantya.ai</strong> 🚀</p>
+      <br/>
+      <p>Regards,<br/>Team Anantya.ai</p>
+    `,
+  };
+
+  await transporter.sendMail(mailOptions);
+}
+
 
 /* ================= OTP EMAIL ================= */
 async function sendOtpEmail(clientEmail, clientName, otp) {
@@ -91,7 +146,7 @@ async function sendPaymentDocsEmail(
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to: clientEmail,
-    cc: ["Mokshika@anantya.ai", "bhanu@anantya.ai"],
+    cc: ["Mokshika@anantya.ai", "bhanu@anantya.ai", "sales@anantya.ai", "lakshay@anantya.ai"],
     subject: "Invoice & Receipt – Anantya.ai",
     html: `
       <p>Hi ${clientName},</p>
@@ -120,4 +175,5 @@ module.exports = {
   sendPaymentConfirmationEmail,
   sendOtpEmail,
   sendPaymentDocsEmail,
+  sendPaymentVerifyEmail,
 };

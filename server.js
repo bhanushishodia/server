@@ -47,7 +47,7 @@ app.use((req, res, next) => {
 
 // Root route to test the server
 app.get("/", (req, res) => {
-  res.send("Welcome to the main  new-acquisition.anantya.ai!");
+  res.send("Welcome to the main API route!");
 });
 
 // Define the /payment/success route
